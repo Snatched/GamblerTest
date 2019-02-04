@@ -35,6 +35,7 @@ outcomelist = (
 weightedChoice = WeightedChoice(outcomelist)
 
 all_bet_outcomes = []
+max_bet_outcome = 0
 
 # Make a choice (test purpose)
 for i in range(0,n_tries):
@@ -51,6 +52,10 @@ for i in range(0,n_tries):
         #print(single_bet_outcomes[-1] != "Win!") DEBUG
 
     all_bet_outcomes.append(len(single_bet_outcomes))
+
+    if len(single_bet_outcomes) > max_bet_outcome:
+        max_bet_outcome = len(single_bet_outcomes)
+
 
 # Save results
 average_tries_to_success=statistics.mean(all_bet_outcomes)
@@ -76,8 +81,8 @@ import numpy as np
 
 
 
-n, bins, patches = plt.hist(x=all_bet_outcomes, bins='auto', color='#0504aa',
-                            alpha=0.7, rwidth=0.85)
+n, bins, patches = plt.hist(x=all_bet_outcomes, bins=range(max_bet_outcome), color='#0504aa',
+                            align = 'left', alpha=0.7, rwidth=0.85)
 
 plt.grid(axis='y', alpha=0.75)
 plt.xlabel('Value')
@@ -87,6 +92,7 @@ plt.text(23, 45, r'$\mu=15, b=3$')
 maxfreq = n.max()
 # Set a clean upper y-axis limit.
 plt.ylim(top=np.ceil(maxfreq / 10) * 10 if maxfreq % 10 else maxfreq + 10)
+plt.xlim(right=median_of_tries_to_success*3)
 
 # Display the graph
 plt.show()
